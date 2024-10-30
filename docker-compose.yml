@@ -1,0 +1,24 @@
+networks :
+  network :
+    driver : bridge
+
+services :
+  vulnerable_app :
+    container_name : vulnerable_app
+    build : ./test_project
+    networks :
+      - network
+    volumes :
+      - ./media:/var/www/media/
+
+  nginx_media_server :
+    build : ./nginx_media_server
+    container_name : nginx_media_server
+    ports :
+      - 8000:8000
+    networks :
+      - network
+    environment:
+      - NGINX_PORT=8000
+    volumes :
+      - ./media:/var/www/media/
