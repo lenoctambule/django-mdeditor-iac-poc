@@ -9,6 +9,7 @@ services :
     networks :
       - network
     volumes :
+      - ./test_project:/src/
       - ./media:/var/www/media/
 
   nginx_media_server :

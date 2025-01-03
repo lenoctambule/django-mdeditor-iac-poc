@@ -6,16 +6,16 @@ media :
 	mkdir media
 
 build :
-	docker-compose $(CMPS_PATH) build
+	docker compose $(CMPS_PATH) build
 
 run : 
-	docker-compose $(CMPS_PATH) up -d
+	docker compose $(CMPS_PATH) up -d
 
 stop :
-	docker-compose $(CMPS_PATH) stop
+	docker compose $(CMPS_PATH) stop
 
 fclean :
-	docker-compose $(CMPS_PATH) down -v
+	docker compose $(CMPS_PATH) down -v
 
 re: fclean build run
 
