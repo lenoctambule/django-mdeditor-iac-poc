@@ -1,5 +1,16 @@
 # Common Misconfig leads to Improper Access Control on django-mdeditor's upload path
 
+## PoC
+
+This is a simple example of a vulnerable django project. To run it, you'll need docker compose and start it with :
+```text
+$> make
+```
+Then, poc.py can be run and demonstrate that you do not need to be authenticated to upload files.
+```text
+$> py poc.py
+```
+
 ## I. What is `django-mdeditor`?
 
 `django-mdeditor` is a popular Django open-source project that provides an easy-to-use markdown editor for websites, supporting media uploads and live previews. This editor can be integrated either directly into templates or the Django admin panel through the `MDTextField` class.
