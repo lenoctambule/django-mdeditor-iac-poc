@@ -1,4 +1,4 @@
-# Improper Access Control on `django-mdeditor`'s Upload Path
+# Common Misconfig leads to Improper Access Control on django-mdeditor's upload path
 
 ## I. What is `django-mdeditor`?
 
@@ -67,13 +67,13 @@ class UploadView(generic.View):
                                                  file_full_name)})
 ```
 
-This can lead to scenarios where editing a markdown field might require authentication (e.g., through Django admin), but uploading files does not.
+This can lead to scenarios where editing a markdown field might require authentication (e.g., through Django admin), but uploading files does not require it.
 
 ## III. Impact
 
-The simplest way to exploit this vulnerability is through a file system Denial of Service (DoS) attack. Additionally, it can be exploited for phishing purposes. For instance, if `https://jobs.ecorp.com` is vulnerable, an authenticated attacker could upload and share malicious payloads hosted on that domain, making phishing campaigns more convincing and harder to detect.
+The simplest way to exploit this vulnerability is through a file system Denial of Service (DoS) attack impacting availability.
 
-In less likely but more sophisticated scenarios, this vulnerability could be part of an exploit chain requiring file uploads.
+Additionally, it can be used to increase stealth in an attack. For instance, if `https://jobs.ecorp.com` is vulnerable, an unauthenticated attacker could upload and retrieve malicious payloads hosted on that domain, helping in evading detection from DNS filtering.
 
 ## IV. Proposed Fixes
 
@@ -101,4 +101,4 @@ urlpatterns = [
 
 ### Permanent Fix
 
-A permanent solution could involve adopting [this fork](https://github.com/lenoctambule/django-mdeditor) of the application and modifying `MDEDITOR_CONFIGS` accordingly. Alternatively, at the cost of breaking compatibility with apps dependent on this package, a more robust solution would be to create another fork that removes the `UploadView` entirely and uses HTTP return codes for handling uploads instead.
+A permanent solution could involve adopting [this fork](https://github.com/lenoctambule/django-mdeditor) that I made of the application and modifying `MDEDITOR_CONFIGS` accordingly. Alternatively, at the cost of breaking compatibility with apps dependent on this package, a more robust solution would be to create another fork that removes the `UploadView` entirely and use HTTP return codes instead of json responses. Essentially leaving the task of handling uploads on the back-end up to the developers such that they have full control of security.
